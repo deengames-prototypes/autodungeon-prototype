@@ -4,6 +4,7 @@ import kha.Framebuffer;
 import kha.Scheduler;
 import kha.System;
 import kha.Color;
+import kha.Font;
 import kha.Image;
 import kha.Scaler;
 import kha.Assets;
@@ -14,8 +15,9 @@ class CoreGame {
   	public static inline var screenHeight = 450;
 
 	private var backbuffer:Image;
-
 	private var images:Map<String, Image> = new Map<String, Image>();
+
+	private var font:Font;
 
 	private var initialized:Bool = false;
 
@@ -33,6 +35,7 @@ class CoreGame {
 			images["player"] = Assets.images.player;
 			images["scenery"] = Assets.images.scenery;
 			images["monster"] = Assets.images.monster;
+			font = Assets.fonts.biryani;
 		});
 	}
 
@@ -49,6 +52,7 @@ class CoreGame {
 		}		
 		
 		var g = backbuffer.g2;
+		g.font = this.font;
 
 		// clear our backbuffer using graphics2
 		g.begin(true, Color.Black);
@@ -56,6 +60,14 @@ class CoreGame {
 		g.drawImage(images["scenery"], 25, 75);
 		g.drawImage(images["player"], 150, 150);
 		g.drawImage(images["monster"], 550, 150);
+
+		g.fontSize = 72;
+		g.drawString("Location: Merry Meadows", 100, 0);
+
+		g.fontSize = 36;
+		g.drawString("Level: 1 (0/250xp)", 50, 350);
+		g.drawString("Coins: 0 gold, 0 silver", 50, 374);
+
 		g.end();
 
 		// draw our backbuffer onto the active framebuffer
