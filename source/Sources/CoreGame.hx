@@ -35,6 +35,9 @@ class CoreGame {
 			images["player"] = Assets.images.player;
 			images["scenery"] = Assets.images.scenery;
 			images["monster"] = Assets.images.monster;
+			images["item button"] = Assets.images.button_items;
+			images["shop button"] = Assets.images.button_shop;
+			images["quit button"] = Assets.images.button_quit;
 			font = Assets.fonts.biryani;
 		});
 	}
@@ -65,8 +68,14 @@ class CoreGame {
 		g.drawString("Location: Merry Meadows", 100, 0);
 
 		g.fontSize = 36;
-		g.drawString("Level: 1 (0/250xp)", 50, 350);
-		g.drawString("Coins: 0 gold, 0 silver", 50, 374);
+		g.drawString("Level: 1 (0/250xp)", 25, 325);
+		g.drawString("Coins: 0 gold, 0 silver", 25, 350);
+
+		g.drawImage(images["item button"], 575, 350);
+		g.drawImage(images["shop button"], 650, 350);
+		g.drawImage(images["quit button"], 725, 350);
+
+		g.drawString("You hit the yellow birdicorn for 17 damage!", 10, 415);
 
 		g.end();
 
