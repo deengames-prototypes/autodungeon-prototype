@@ -9,6 +9,8 @@ import kha.Image;
 import kha.Scaler;
 import kha.Assets;
 
+import model.AutoDungeon;
+
 class CoreGame {
 
   	public static inline var screenWidth = 800;
@@ -20,6 +22,8 @@ class CoreGame {
 	private var font:Font;
 
 	private var initialized:Bool = false;
+	private var game:AutoDungeon = new AutoDungeon(); // TODO: persist data
+	
 
 	public function new()
 	{
@@ -39,12 +43,11 @@ class CoreGame {
 			images["shop button"] = Assets.images.button_shop;
 			images["quit button"] = Assets.images.button_quit;
 			font = Assets.fonts.biryani;
-		});
-	}
+		});	}
 
 	function update(): Void
 	{
-		
+		this.game.update();
 	}
 
 	function render(framebuffer: Framebuffer): Void
@@ -75,7 +78,7 @@ class CoreGame {
 		g.drawImage(images["shop button"], 650, 350);
 		g.drawImage(images["quit button"], 725, 350);
 
-		g.drawString("You hit the yellow birdicorn for 17 damage!", 10, 415);
+		g.drawString(this.game.lastMessage, 10, 415);
 
 		g.end();
 
