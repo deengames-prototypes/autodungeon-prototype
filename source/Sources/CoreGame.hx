@@ -1,40 +1,25 @@
 package;
 
-import kha.Framebuffer;
-import kha.Scheduler;
-import kha.System;
+import kha.Assets;
 import kha.Color;
-import kha.Font;
+import kha.Framebuffer;
 import kha.Image;
 import kha.Scaler;
-import kha.Assets;
+import kha.Scheduler;
+import kha.System;
 
 import model.AutoDungeon;
 
-class CoreGame {
+class CoreGame extends BaseGame {
 
-  	public static inline var screenWidth = 800;
-  	public static inline var screenHeight = 450;
-
-	private var backbuffer:Image;
 	private var images:Map<String, Image> = new Map<String, Image>();
-
-	private var font:Font;
-
-	private var initialized:Bool = false;
 	private var game:AutoDungeon = new AutoDungeon(); // TODO: persist data
-	private var lastUpdateTime:Float = 0;
 
 	public function new()
 	{
-		System.notifyOnRender(render);
-		Scheduler.addTimeTask(update, 0, 1 / 60);
-
-		backbuffer = Image.createRenderTarget(screenWidth, screenHeight);
-
-		Assets.loadEverything(function()
-		{			
-			initialized = true;
+		super(800, 450);
+		this.loadAssets(function()
+		{
 			images["background"] = Assets.images.background;
 			images["player"] = Assets.images.player;
 			images["scenery"] = Assets.images.scenery;
@@ -42,23 +27,23 @@ class CoreGame {
 			images["item button"] = Assets.images.button_items;
 			images["shop button"] = Assets.images.button_shop;
 			images["quit button"] = Assets.images.button_quit;
-			font = Assets.fonts.biryani;
-		});	}
-
-	function update(): Void
-	{
-		var now = Scheduler.realTime();
-		var elapsedSeconds = now - lastUpdateTime;
-		this.game.update(elapsedSeconds);
-		this.lastUpdateTime = now;
+			this.font = Assets.fonts.biryani;
+		});
 	}
 
-	function render(framebuffer: Framebuffer): Void
+	override function update(): Void
 	{
-		if (!initialized)
-		{
-			return;
-		}		
+		super.update();
+		var now = Scheduler.realTime();
+		var elapsedSeconds = now - lastUpdateTime;
+        this.lastUpdateTime = now;
+		
+		this.game.update(elapsedSeconds);
+	}
+
+	override function render(frameBuffer:Framebuffer):Void
+	{
+		super.render(frameBuffer);		
 		
 		var g = backbuffer.g2;
 		g.font = this.font;
@@ -86,8 +71,8 @@ class CoreGame {
 		g.end();
 
 		// draw our backbuffer onto the active framebuffer
-		framebuffer.g2.begin();
-		Scaler.scale(backbuffer, framebuffer, System.screenRotation);
-		framebuffer.g2.end();
+		frameBuffer.g2.begin();
+		Scaler.scale(backbuffer, frameBuffer, System.screenRotation);
+		frameBuffer.g2.end();
 	}
 }
