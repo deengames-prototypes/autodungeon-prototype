@@ -1,28 +1,28 @@
 package model;
 
-import kha.Scheduler;
-
 // Model class representing one instance of our game universe.
 // Separated from the view which is a best practice.
 class AutoDungeon
 {
     public var lastMessage(default, null):String;
-    private var lastMessageTime:Float; // from Scheduler.realTime()
+    private var accumulator:Float;
 
+    // TODO: delete
     private static var x:Int = 0;
 
     public function new()
     {
-        lastMessageTime = 0;
     }
 
-    public function update():Void
+    public function update(elapsedSeconds:Float):Void
     {
-        var elapsedSeconds:Int = Math.floor(Scheduler.realTime() - lastMessageTime);
-        if (elapsedSeconds >= 1)
+        this.accumulator += elapsedSeconds;
+        if (this.accumulator >= 1)
         {
-            lastMessageTime = Scheduler.realTime();
-            this.advanceTimeBy(elapsedSeconds);
+            var seconds = Math.floor(this.accumulator);
+            this.advanceTimeBy(seconds);
+            this.accumulator -= seconds;
+
             lastMessage = 'Update ${x}!';
         }
     }

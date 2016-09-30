@@ -23,7 +23,7 @@ class CoreGame {
 
 	private var initialized:Bool = false;
 	private var game:AutoDungeon = new AutoDungeon(); // TODO: persist data
-	
+	private var lastUpdateTime:Float = 0;
 
 	public function new()
 	{
@@ -47,7 +47,10 @@ class CoreGame {
 
 	function update(): Void
 	{
-		this.game.update();
+		var now = Scheduler.realTime();
+		var elapsedSeconds = now - lastUpdateTime;
+		this.game.update(elapsedSeconds);
+		this.lastUpdateTime = now;
 	}
 
 	function render(framebuffer: Framebuffer): Void
