@@ -1,7 +1,10 @@
 import kha.Assets;
+import kha.Color;
 import kha.Font;
 import kha.Framebuffer;
+import kha.graphics2.Graphics;
 import kha.Image;
+import kha.Scaler;
 import kha.Scheduler;
 import kha.System;
 
@@ -38,13 +41,28 @@ class BaseGame
         });
     }
 
+    // Virtual functions to override
+    private function onUpdate():Void { } 
+    private function onRender(g:Graphics):Void { }
+
     private function update():Void
     {
-        // virtual, override me
+        this.onUpdate();
     }
 
     private function render(frameBuffer:Framebuffer):Void
     {
-        // virtual, override me
+        var g = backbuffer.g2;
+		g.font = this.font;
+		// clear our backbuffer using graphics2
+		g.begin(true, Color.Black);
+
+        this.onRender(g);
+        
+        g.end();
+		// draw our backbuffer onto the active framebuffer
+		frameBuffer.g2.begin();
+		Scaler.scale(backbuffer, frameBuffer, System.screenRotation);
+		frameBuffer.g2.end();
     }
 }

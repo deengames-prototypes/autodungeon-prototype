@@ -1,10 +1,9 @@
 package;
 
 import kha.Assets;
-import kha.Color;
 import kha.Framebuffer;
+import kha.graphics2.Graphics;
 import kha.Image;
-import kha.Scaler;
 import kha.Scheduler;
 import kha.System;
 
@@ -31,9 +30,8 @@ class CoreGame extends BaseGame {
 		});
 	}
 
-	override function update(): Void
+	override function onUpdate(): Void
 	{
-		super.update();
 		var now = Scheduler.realTime();
 		var elapsedSeconds = now - lastUpdateTime;
         this.lastUpdateTime = now;
@@ -41,15 +39,8 @@ class CoreGame extends BaseGame {
 		this.game.update(elapsedSeconds);
 	}
 
-	override function render(frameBuffer:Framebuffer):Void
+	override function onRender(g:Graphics):Void
 	{
-		super.render(frameBuffer);		
-		
-		var g = backbuffer.g2;
-		g.font = this.font;
-
-		// clear our backbuffer using graphics2
-		g.begin(true, Color.Black);
 		g.drawImage(images["background"], 0, 0);
 		g.drawImage(images["scenery"], 25, 75);
 		g.drawImage(images["player"], 150, 150);
@@ -67,12 +58,5 @@ class CoreGame extends BaseGame {
 		g.drawImage(images["quit button"], 725, 350);
 
 		g.drawString(this.game.lastMessage, 10, 415);
-
-		g.end();
-
-		// draw our backbuffer onto the active framebuffer
-		frameBuffer.g2.begin();
-		Scaler.scale(backbuffer, frameBuffer, System.screenRotation);
-		frameBuffer.g2.end();
 	}
 }
