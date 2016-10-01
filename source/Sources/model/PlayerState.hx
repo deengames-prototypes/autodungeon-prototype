@@ -2,6 +2,8 @@ package model;
 
 class PlayerState
 {
+    public static var monsterNames:Array<String>;
+
     public var message(get, null):String;
     public var durationInSeconds(default, null):Int = 0;
 
@@ -31,8 +33,13 @@ class PlayerState
         this.elapsedTime += elapsed;
     }
 
-    public static function Fighting(monsterName:String):PlayerState
+    public static function Fighting(monsterName:String = ""):PlayerState
     {
+        if (monsterName == "")
+        {
+            var n = Math.floor(Math.random() * monsterNames.length);
+            monsterName = monsterNames[n];
+        }
         return new PlayerState('Fighting a ${monsterName}', 10);
     }
 

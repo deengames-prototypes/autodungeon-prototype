@@ -1,5 +1,7 @@
 package;
 
+import haxe.Json;
+
 import kha.Assets;
 import kha.Framebuffer;
 import kha.graphics2.Graphics;
@@ -8,6 +10,7 @@ import kha.Scheduler;
 import kha.System;
 
 import model.AutoDungeon;
+import model.PlayerState;
 
 class CoreGame extends BaseGame {
 
@@ -27,6 +30,7 @@ class CoreGame extends BaseGame {
 			images["shop button"] = Assets.images.button_shop;
 			images["quit button"] = Assets.images.button_quit;
 			this.font = Assets.fonts.biryani;
+			PlayerState.monsterNames = Json.parse(Assets.blobs.monsters_json.toString()).names;
 		});
 	}
 

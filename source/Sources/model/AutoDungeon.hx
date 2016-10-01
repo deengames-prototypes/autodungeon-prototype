@@ -36,7 +36,7 @@ class AutoDungeon
         this.playerState.update(seconds);
         if (this.playerState.isComplete())
         {
-            this.playerState = PlayerState.Fighting("slime");
+            this.playerState = PlayerState.Fighting();
         }
     }
 }
