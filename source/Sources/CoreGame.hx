@@ -29,8 +29,16 @@ class CoreGame extends BaseGame {
 			images["item button"] = Assets.images.button_items;
 			images["shop button"] = Assets.images.button_shop;
 			images["quit button"] = Assets.images.button_quit;
+
+			images["bat"] = Assets.images.bat;
+			images["dragon"] = Assets.images.dragon;
+			images["man-eating-flower"] = Assets.images.man_eating_flower;
+			images["mosquito"] = Assets.images.mosquito;
+			images["spider"] = Assets.images.spider;
+
 			this.font = Assets.fonts.biryani;
-			PlayerState.monsterNames = Json.parse(Assets.blobs.monsters_json.toString()).names;
+
+			PlayerState.monsterNames = Json.parse(Assets.blobs.monsters_json.toString()).names;			
 		});
 	}
 
@@ -48,7 +56,7 @@ class CoreGame extends BaseGame {
 		this.drawImage(images["background"], 0, 0);
 		this.drawImage(images["scenery"], 25, 75);
 		this.drawImage(images["player"], 150, 150);
-		this.drawImage(images["monster"], 550, 150);
+		this.drawImage(images[this.game.playerState.imageKey], 550, 150);
 
 		this.drawText("Location: Merry Meadows", 100, 0, 72);
 		this.drawText("Level: 1 (0/250xp)", 25, 325);

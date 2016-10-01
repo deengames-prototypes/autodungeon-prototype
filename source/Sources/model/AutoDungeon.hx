@@ -4,7 +4,7 @@ package model;
 // Separated from the view which is a best practice.
 class AutoDungeon
 {    
-    public var playerState:PlayerState = PlayerState.Fighting("slime");
+    public var playerState:PlayerState = PlayerState.Fighting("mosquito");
     public var lastMessage(get, null):String;
     private var accumulator:Float;
 
