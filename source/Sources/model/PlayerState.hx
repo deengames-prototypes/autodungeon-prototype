@@ -2,8 +2,6 @@ package model;
 
 class PlayerState
 {
-    public static var FIGHTING_MONSTER:PlayerState = new PlayerState("Fighting a slime", 10);
-
     public var message(get, null):String;
     public var durationInSeconds(default, null):Int = 0;
 
@@ -31,5 +29,15 @@ class PlayerState
     public function update(elapsed:Float):Void
     {
         this.elapsedTime += elapsed;
+    }
+
+    public static function Fighting(monsterName:String):PlayerState
+    {
+        return new PlayerState('Fighting a ${monsterName}', 10);
+    }
+
+    public function isComplete():Bool
+    {
+        return this.elapsedTime >= this.durationInSeconds;
     }
 }

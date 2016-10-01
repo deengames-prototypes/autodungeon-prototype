@@ -4,7 +4,7 @@ package model;
 // Separated from the view which is a best practice.
 class AutoDungeon
 {    
-    public var playerState:PlayerState = PlayerState.FIGHTING_MONSTER;
+    public var playerState:PlayerState = PlayerState.Fighting("slime");
     public var lastMessage(get, null):String;
     private var accumulator:Float;
 
@@ -34,5 +34,9 @@ class AutoDungeon
     private function advanceTimeBy(seconds:Int):Void
     {
         this.playerState.update(seconds);
+        if (this.playerState.isComplete())
+        {
+            this.playerState = PlayerState.Fighting("slime");
+        }
     }
 }
