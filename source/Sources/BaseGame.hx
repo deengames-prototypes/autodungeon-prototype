@@ -32,6 +32,8 @@ class BaseGame
 		backbuffer = Image.createRenderTarget(screenWidth, screenHeight);
     }
 
+    ///// Start protected/internal functions \\\\\
+
     private function loadAssets(callback:Void->Void):Void
     {
         Assets.loadEverything(function()
@@ -43,12 +45,30 @@ class BaseGame
 
     // Virtual functions to override
     private function onUpdate():Void { } 
+
     private function onRender(g:Graphics):Void { }
 
     private function update():Void
     {
         this.onUpdate();
     }
+
+    private function drawImage(image:Image, x:Int, y:Int):Void
+    {
+        var g = backbuffer.g2;        
+        g.drawImage(image, x, y);
+    }
+
+    
+
+    private function drawText(text:String, x:Int, y:Int, fontSize:Int = 36):Void
+    {
+        var g = backbuffer.g2;    
+        g.fontSize = fontSize;    
+        g.drawString(text, x, y);
+    }
+
+    ///// End protected/internal functions \\\\\
 
     private function render(frameBuffer:Framebuffer):Void
     {

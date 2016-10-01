@@ -41,22 +41,19 @@ class CoreGame extends BaseGame {
 
 	override function onRender(g:Graphics):Void
 	{
-		g.drawImage(images["background"], 0, 0);
-		g.drawImage(images["scenery"], 25, 75);
-		g.drawImage(images["player"], 150, 150);
-		g.drawImage(images["monster"], 550, 150);
+		this.drawImage(images["background"], 0, 0);
+		this.drawImage(images["scenery"], 25, 75);
+		this.drawImage(images["player"], 150, 150);
+		this.drawImage(images["monster"], 550, 150);
 
-		g.fontSize = 72;
-		g.drawString("Location: Merry Meadows", 100, 0);
+		this.drawText("Location: Merry Meadows", 100, 0, 72);
+		this.drawText("Level: 1 (0/250xp)", 25, 325);
+		this.drawText("Coins: 0 gold, 0 silver", 25, 350);
 
-		g.fontSize = 36;
-		g.drawString("Level: 1 (0/250xp)", 25, 325);
-		g.drawString("Coins: 0 gold, 0 silver", 25, 350);
+		this.drawImage(images["item button"], 575, 350);
+		this.drawImage(images["shop button"], 650, 350);
+		this.drawImage(images["quit button"], 725, 350);
 
-		g.drawImage(images["item button"], 575, 350);
-		g.drawImage(images["shop button"], 650, 350);
-		g.drawImage(images["quit button"], 725, 350);
-
-		g.drawString(this.game.lastMessage, 10, 415);
+		this.drawText(this.game.lastMessage, 10, 415);
 	}
 }
