@@ -55,6 +55,12 @@ class BaseGame
 
     private function drawImage(image:Image, x:Int, y:Int):Void
     {
+        if (!initialized)
+        {
+            trace("Warning: can't call drawImage before calling loadAssets(...) to initialize the game.");
+            return;
+        }
+
         var g = backbuffer.g2;        
         g.drawImage(image, x, y);
     }
@@ -63,6 +69,12 @@ class BaseGame
 
     private function drawText(text:String, x:Int, y:Int, fontSize:Int = 36):Void
     {
+        if (!initialized)
+        {
+            trace("Warning: can't call drawImage before calling loadAssets(...) to initialize the game.");
+            return;
+        }
+
         var g = backbuffer.g2;    
         g.fontSize = fontSize;    
         g.drawString(text, x, y);
@@ -72,17 +84,21 @@ class BaseGame
 
     private function render(frameBuffer:Framebuffer):Void
     {
-        var g = backbuffer.g2;
-		g.font = this.font;
-		// clear our backbuffer using graphics2
-		g.begin(true, Color.Black);
+        if (initialized)
+        {
+            var g = backbuffer.g2;
+            g.font = this.font;
+            
+            // clear our backbuffer using graphics2
+            g.begin(true, Color.Black);
 
-        this.onRender(g);
-        
-        g.end();
-		// draw our backbuffer onto the active framebuffer
-		frameBuffer.g2.begin();
-		Scaler.scale(backbuffer, frameBuffer, System.screenRotation);
-		frameBuffer.g2.end();
+            this.onRender(g);
+            
+            g.end();
+            // draw our backbuffer onto the active framebuffer
+            frameBuffer.g2.begin();
+            Scaler.scale(backbuffer, frameBuffer, System.screenRotation);
+            frameBuffer.g2.end();
+        }
     }
 }

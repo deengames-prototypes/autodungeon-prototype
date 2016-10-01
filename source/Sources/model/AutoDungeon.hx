@@ -3,8 +3,9 @@ package model;
 // Model class representing one instance of our game universe.
 // Separated from the view which is a best practice.
 class AutoDungeon
-{
-    public var lastMessage(default, null):String;
+{    
+    public var playerState:PlayerState = PlayerState.FIGHTING_MONSTER;
+    public var lastMessage(get, null):String;
     private var accumulator:Float;
 
     // TODO: delete
@@ -22,13 +23,16 @@ class AutoDungeon
             var seconds = Math.floor(this.accumulator);
             this.advanceTimeBy(seconds);
             this.accumulator -= seconds;
-
-            lastMessage = 'Update ${x}!';
         }
+    }
+
+    public function get_lastMessage():String
+    {
+        return this.playerState.message;
     }
 
     private function advanceTimeBy(seconds:Int):Void
     {
-        x += seconds;
+        this.playerState.update(seconds);
     }
 }
