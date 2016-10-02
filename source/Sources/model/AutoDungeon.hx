@@ -4,7 +4,7 @@ package model;
 // Separated from the view which is a best practice.
 class AutoDungeon
 {    
-    public var playerState:PlayerState = PlayerState.Fighting("mosquito");
+    public var playerState:PlayerState = PlayerState.Town("Swatting Torn");
     public var lastMessage(get, null):String;
     private var accumulator:Float;
 
@@ -34,9 +34,16 @@ class AutoDungeon
     private function advanceTimeBy(seconds:Int):Void
     {
         this.playerState.update(seconds);
+
         if (this.playerState.isComplete())
         {
-            this.playerState = PlayerState.Fighting();
+            // TODO: this is becoming a FSM. Can we do better here?
+            switch this.playerState.type
+            {
+                case StateType.Town: this.playerState = PlayerState.Wilderness();
+                case StateType.Wilderness: this.playerState = PlayerState.Fighting();
+                case StateType.Fighting: this.playerState = PlayerState.Wilderness();
+            }
         }
     }
 }

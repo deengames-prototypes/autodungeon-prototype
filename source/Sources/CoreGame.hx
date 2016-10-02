@@ -14,18 +14,20 @@ import model.PlayerState;
 
 class CoreGame extends BaseGame {
 
+	private static inline var GAME_WIDTH:Int = 800;
+	private static inline var GAME_HEIGHT:Int = 450;
+
 	private var images:Map<String, Image> = new Map<String, Image>();
 	private var game:AutoDungeon = new AutoDungeon(); // TODO: persist data
 
 	public function new()
 	{
-		super(800, 450);
+		super(GAME_WIDTH, GAME_HEIGHT);
 		this.loadAssets(function()
 		{
 			images["background"] = Assets.images.background;
 			images["player"] = Assets.images.player;
 			images["scenery"] = Assets.images.scenery;
-			images["monster"] = Assets.images.monster;
 			images["item button"] = Assets.images.button_items;
 			images["shop button"] = Assets.images.button_shop;
 			images["quit button"] = Assets.images.button_quit;
@@ -35,6 +37,8 @@ class CoreGame extends BaseGame {
 			images["man-eating-flower"] = Assets.images.man_eating_flower;
 			images["mosquito"] = Assets.images.mosquito;
 			images["spider"] = Assets.images.spider;
+			images["town"] = Assets.images.town;
+			images["forest"] = Assets.images.forest;
 
 			this.font = Assets.fonts.biryani;
 
@@ -56,7 +60,12 @@ class CoreGame extends BaseGame {
 		this.drawImage(images["background"], 0, 0);
 		this.drawImage(images["scenery"], 25, 75);
 		this.drawImage(images["player"], 150, 150);
-		this.drawImage(images[this.game.playerState.imageKey], 550, 150);
+		
+		var stateImage = images[this.game.playerState.imageKey];
+		// Center on RHS 
+		var x:Int = Std.int((GAME_WIDTH / 2) + ((GAME_WIDTH / 2) - stateImage.width) / 2);
+		var y:Int = Std.int((GAME_HEIGHT - stateImage.height) / 2);
+		this.drawImage(stateImage, x, y);
 
 		this.drawText("Location: Merry Meadows", 100, 0, 72);
 		this.drawText("Level: 1 (0/250xp)", 25, 325);
