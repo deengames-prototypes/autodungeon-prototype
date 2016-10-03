@@ -10,7 +10,8 @@ import kha.Scheduler;
 import kha.System;
 
 import model.AutoDungeon;
-import model.PlayerState;
+import model.states.BattleState;
+import model.states.PassiveWaitState;
 
 class CoreGame extends BaseGame {
 
@@ -42,7 +43,7 @@ class CoreGame extends BaseGame {
 
 			this.font = Assets.fonts.biryani;
 
-			PlayerState.monsterNames = Json.parse(Assets.blobs.monsters_json.toString()).names;			
+			BattleState.monsterNames = Json.parse(Assets.blobs.monsters_json.toString()).names;			
 		});
 	}
 
@@ -61,13 +62,13 @@ class CoreGame extends BaseGame {
 		this.drawImage(images["scenery"], 25, 75);
 		this.drawImage(images["player"], 150, 150);
 		
-		var stateImage = images[this.game.playerState.imageKey];
+		var stateImage = images[this.game.state.imageKey];
 		// Center on RHS 
 		var x:Int = Std.int((GAME_WIDTH / 2) + ((GAME_WIDTH / 2) - stateImage.width) / 2);
 		var y:Int = Std.int((GAME_HEIGHT - stateImage.height) / 2);
 		this.drawImage(stateImage, x, y);
 
-		this.drawText("Location: Merry Meadows", 100, 0, 72);
+		//this.drawText("Location: Merry Meadows", 100, 0, 72);
 		this.drawText("Level: 1 (0/250xp)", 25, 325);
 		this.drawText("Coins: 0 gold, 0 silver", 25, 350);
 

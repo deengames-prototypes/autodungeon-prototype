@@ -1,10 +1,13 @@
 package model;
 
+import model.states.GameState;
+import model.states.PassiveWaitState;
+
 // Model class representing one instance of our game universe.
 // Separated from the view which is a best practice.
 class AutoDungeon
 {    
-    public var playerState:PlayerState = PlayerState.Town("Swatting Torn");
+    public var state:GameState = PassiveWaitState.town("Swatting Torn");
     public var lastMessage(get, null):String;
     private var accumulator:Float;
 
@@ -28,22 +31,16 @@ class AutoDungeon
 
     public function get_lastMessage():String
     {
-        return this.playerState.message;
+        return this.state.message;
     }
 
     private function advanceTimeBy(seconds:Int):Void
     {
-        this.playerState.update(seconds);
+        this.state.update(seconds);
 
-        if (this.playerState.isComplete())
+        if (this.state.isComplete())
         {
-            // TODO: this is becoming a FSM. Can we do better here?
-            switch this.playerState.type
-            {
-                case StateType.Town: this.playerState = PlayerState.Wilderness();
-                case StateType.Wilderness: this.playerState = PlayerState.Fighting();
-                case StateType.Fighting: this.playerState = PlayerState.Wilderness();
-            }
+            this.state = this.state.getNextState();
         }
     }
 }
