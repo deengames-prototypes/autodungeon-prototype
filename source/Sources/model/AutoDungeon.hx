@@ -1,5 +1,6 @@
 package model;
 
+import model.Entity;
 import model.states.GameState;
 import model.states.PassiveWaitState;
 
@@ -7,15 +8,15 @@ import model.states.PassiveWaitState;
 // Separated from the view which is a best practice.
 class AutoDungeon
 {    
-    public var state:GameState = PassiveWaitState.town("Swatting Torn");
+    public var state:GameState;
     public var lastMessage(get, null):String;
-    private var accumulator:Float;
 
-    // TODO: delete
-    private static var x:Int = 0;
+    private var player:Entity = new Entity("Player", 20, 5, 3);
+    private var accumulator:Float;
 
     public function new()
     {
+         this.state = PassiveWaitState.town(player, "Swatting Torn");
     }
 
     public function update(elapsedSeconds:Float):Void

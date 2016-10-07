@@ -1,5 +1,7 @@
 package model.states;
 
+import model.Entity;
+
 class PassiveWaitState extends GameState
 {
     public var durationInSeconds(default, null):Int = 0;
@@ -7,9 +9,9 @@ class PassiveWaitState extends GameState
     public var type(default, null):StateType;
     private var elapsedTime:Float = 0;
 
-    public function new(message:String, imageKey:String, type:StateType, durationInSeconds:Int)
+    public function new(player:Entity, message:String, imageKey:String, type:StateType, durationInSeconds:Int)
     {
-        super(message, imageKey);
+        super(player, message, imageKey);
         this.type = type;
         this.durationInSeconds = durationInSeconds;
     }
@@ -26,15 +28,15 @@ class PassiveWaitState extends GameState
         return toReturn;
     }
 
-    public static function town(townName:String = ""):PassiveWaitState
+    public static function town(player:Entity, townName:String = ""):PassiveWaitState
     {
         // TODO: different image per town?
-        return new PassiveWaitState('Exploring the town of ${townName}', "town", StateType.Town, 10);
+        return new PassiveWaitState(player, 'Exploring the town of ${townName}', "town", StateType.Town, 10);
     }
 
-    public static function wilderness():PassiveWaitState
+    public static function wilderness(player:Entity):PassiveWaitState
     {
-        return new PassiveWaitState("Exploring the wilderness", "forest", StateType.Wilderness, 3);
+        return new PassiveWaitState(player, "Exploring the wilderness", "forest", StateType.Wilderness, 3);
     }
 
     override public function isComplete():Bool
@@ -51,11 +53,11 @@ class PassiveWaitState extends GameState
     {
         if (this.type == StateType.Town)
         {
-            return PassiveWaitState.wilderness();
+            return PassiveWaitState.wilderness(this.player);
         }
         else
         {
-            return BattleState.fighting();
+            return BattleState.fighting(this.player);
         }
     }
 }
